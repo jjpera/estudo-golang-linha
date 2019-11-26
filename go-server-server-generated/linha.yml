@@ -1,0 +1,209 @@
+openapi: 3.0.1
+info:
+  title: LinhaGo
+  description: Controle de Linha Telefonica
+  version: 1.0.0
+servers:
+- url: http://localhost:8082/linhas
+tags:
+- name: Linha Telefonica
+paths:
+  /linha:
+    get:
+      tags:
+        - Linha Telefonica
+      summary: Buscar Linha Telefonica
+      description: Buscar Linha Telefonica.
+      operationId: buscarLinha
+      parameters:
+      - name: numero
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: ddd
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: pagina
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: qtdePagina
+        in: query
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Retorno com sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoLinha'
+        500:
+          description: Erro no servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoLinha'
+    post:
+      tags:
+        - Linha Telefonica
+      summary: Cadastrar Linha Telefonica
+      description: Cadastrar Linha Telefonica.
+      operationId: cadastrarLinha
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Linha'
+        required: true
+      responses:
+        200:
+          description: Cadastrado com sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoLinha'
+        500:
+          description: Erro no servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoLinha'
+  /linha/{codigo}:
+    put:
+      tags:
+      - Linha Telefonica
+      summary: Alterar Linha Telefonica
+      description: Alterar Linha Telefonica.
+      operationId: alterarLinha
+      parameters:
+      - name: codigo
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Linha'
+        required: true
+      responses:
+        200:
+          description: Alteração com sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoLinha'
+        500:
+          description: Erro no servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoLinha'
+    delete:
+      tags:
+      - Linha Telefonica
+      summary: Excluir Linha Telefonica
+      description: Excluir Linha Telefonica.
+      operationId: excluirLinha
+      parameters:
+      - name: codigo
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Exclusão com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoLinha'
+        500:
+          description: Erro no servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoLinha'
+components:
+  schemas:
+    Retorno:
+      type: object
+      properties:
+        codigo:
+          type: integer
+          format: int64
+          example: 234
+        descricao:
+          type: string
+        registros:
+          type: integer
+          example: 20
+        pagina:
+          type: integer
+          example: 0
+        qtdePagina:
+          type: integer
+          example: 15
+    RetornoLinha:
+      allOf:
+        - $ref: '#/components/schemas/Retorno'
+        - type: object
+          properties:
+            listaLinhas:
+              type: array
+              items:
+                $ref: '#/components/schemas/Linha'
+    Linha:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 234
+        ddd:
+          type: string
+          example: '41'
+        numero:
+          type: string
+          example: '555-1234'
+    RetornoHistorico:
+      allOf:
+        - $ref: '#/components/schemas/Retorno'
+        - type: object
+          properties:
+            listaHistoricos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Historico'
+    Historico:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 234
+        data:
+          type: string
+          format: date-time
+          example: '2019-11-26T17:58:29.335Z'
+        tipo:
+          $ref: '#/components/schemas/TipoHistorico'
+        sistema:
+          $ref: '#/components/schemas/Sistema'
+        descricao:
+          type: string
+    TipoHistorico:
+      type: string
+      enum: ['post', 'put', 'delete', 'get']
+    Sistema:
+      type: string
+      enum: ['linha', 'banda', 'tv', 'historico']
