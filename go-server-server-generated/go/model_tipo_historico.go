@@ -1,5 +1,6 @@
 package swagger
 
+// TipoHistorico enum
 type TipoHistorico string
 
 // List of TipoHistorico

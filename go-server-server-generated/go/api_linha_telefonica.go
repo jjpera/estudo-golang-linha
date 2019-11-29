@@ -12,6 +12,7 @@ import (
 
 var linhaService LinhaService
 
+// CadastrarLinha inserir linha
 func CadastrarLinha(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
@@ -27,14 +28,15 @@ func CadastrarLinha(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(retornoLinha)
 }
 
+// BuscarLinha buscar linha
 func BuscarLinha(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
 	var ddd string = mux.Vars(r)["ddd"]
 	var numero string = mux.Vars(r)["numero"]
-	var pagina = stringToInt64(mux.Vars(r)["pagina"])
-	var qtdePagina = stringToInt64(mux.Vars(r)["qtdePagina"])
+	var pagina = stringToInt(mux.Vars(r)["pagina"])
+	var qtdePagina = stringToInt(mux.Vars(r)["qtdePagina"])
 
 	var retornoLinha RetornoLinha
 	retornoLinha = linhaService.Get(ddd, numero, pagina, qtdePagina)
@@ -43,6 +45,7 @@ func BuscarLinha(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(retornoLinha)
 }
 
+// AlterarLinha alterar linha
 func AlterarLinha(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	var retornoLinha RetornoLinha
@@ -50,6 +53,7 @@ func AlterarLinha(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(retornoLinha)
 }
 
+// ExcluirLinha remover linha
 func ExcluirLinha(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	var retornoLinha RetornoLinha
@@ -57,9 +61,9 @@ func ExcluirLinha(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(retornoLinha)
 }
 
-func stringToInt64(snumber string) int64 {
-	pagina, err := strconv.ParseInt(snumber, 10, 64)
-	if err != nil {
+func stringToInt(snumber string) int {
+	pagina, err := strconv.Atoi(snumber)
+	if (err != nil) {
 		return 0
 	}
 	return pagina

@@ -1,5 +1,6 @@
 package swagger
 
+// Sistema enum
 type Sistema string
 
 // List of Sistema

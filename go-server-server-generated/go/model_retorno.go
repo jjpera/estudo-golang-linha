@@ -1,5 +1,6 @@
 package swagger
 
+// Retorno gerar
 type Retorno struct {
 	Codigo     int64  `json:"codigo,omitempty"`
 	Descricao  string `json:"descricao,omitempty"`

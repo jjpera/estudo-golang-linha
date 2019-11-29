@@ -1,5 +1,6 @@
 package swagger
 
+// RetornoHistorico retorno do serviço
 type RetornoHistorico struct {
 	Codigo          int64       `json:"codigo,omitempty"`
 	Descricao       string      `json:"descricao,omitempty"`

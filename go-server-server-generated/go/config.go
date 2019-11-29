@@ -6,6 +6,7 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
+// Config entidade da configuração
 type Config struct {
 	Server   string
 	Database string

@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Route entidade
 type Route struct {
 	Name        string
 	Method      string
@@ -15,8 +16,10 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
+// Routes lista
 type Routes []Route
 
+// NewRouter iniciando Router
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
@@ -34,6 +37,7 @@ func NewRouter() *mux.Router {
 	return router
 }
 
+// Index Hello World
 func Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello World!")
 }
