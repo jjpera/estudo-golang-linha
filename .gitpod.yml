@@ -2,3 +2,7 @@ image:
   file: gitpod.dockerfile
 ports:
  - port: 8082
+tasks:
+ - init: >
+  git clone https://github.com/jjpera/estudo-spring-historico /workspace/dependence
+ 
