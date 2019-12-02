@@ -4,5 +4,6 @@ ports:
  - port: 8082
 tasks:
  - init: >
-  git clone https://github.com/jjpera/estudo-spring-historico /workspace/dependence
+  mongod --dbpath /workspace/data --fork --logpath /workspace/log &&
+  git clone https://github.com/jjpera/estudo-spring-historico.git /workspace/dependence
  
