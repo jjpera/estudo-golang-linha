@@ -13,9 +13,12 @@ type HistoricoService struct {
 
 // Insert adiciona historico
 func (m *HistoricoService) Insert(historico Historico) error {
+	log.Println(historico)
+
 	jsonValue, _ := json.Marshal(historico)
-	response, err := http.Post("http:/localhost:8081/historico/historico", "application/json", bytes.NewBuffer(jsonValue))
+	response, err := http.Post("http://localhost:8081/historico/historico", "application/json", bytes.NewBuffer(jsonValue))
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 

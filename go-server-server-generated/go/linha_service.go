@@ -110,7 +110,7 @@ func (m *LinhaService) Update(Codigo string, linha Linha) (retornoLinha RetornoL
 }
 
 // Delete remove linha
-func (m *LinhaService) Delete(Codigo string, linha Linha) (retornoLinha RetornoLinha) {
+func (m *LinhaService) Delete(Codigo string) (retornoLinha RetornoLinha) {
 	linhaExists, err := linhaRepository.FindByID(Codigo)
 	if linhaExists == (Linha{}) {
 		retornoLinha.Codigo = 500
@@ -119,8 +119,7 @@ func (m *LinhaService) Delete(Codigo string, linha Linha) (retornoLinha RetornoL
 		retornoLinha.Codigo = 500
 		retornoLinha.Descricao = err.Error()
 	} else {
-		linha.ID = linhaExists.ID
-		error := linhaRepository.Delete(linha)
+		error := linhaRepository.Delete(linhaExists)
 		if error != nil {
 			retornoLinha.Codigo = 500
 			retornoLinha.Descricao = err.Error()
@@ -129,13 +128,13 @@ func (m *LinhaService) Delete(Codigo string, linha Linha) (retornoLinha RetornoL
 			retornoLinha.Pagina = 0
 			retornoLinha.QtdePagina = 1
 			retornoLinha.Registros = 1
-			retornoLinha.ListaLinhas = []Linha{linha}
-			log.Println("Delete success: $s", linha)
+			retornoLinha.ListaLinhas = []Linha{linhaExists}
+			log.Println("Delete success: $s", linhaExists)
 			
 			historico := Historico{
 				Tipo: DELETE, 
 				Sistema: LINHA,
-				Descricao: linha.Ddd + linha.Numero,
+				Descricao: linhaExists.Ddd + linhaExists.Numero,
 			}
 
 			historicoService.Insert(historico)
