@@ -2,3 +2,12 @@ image:
   file: gitpod.dockerfile
 ports:
  - port: 8082
+tasks:
+ - name: init
+   command: go get github.com/BurntSushi/toml \
+    && go get -v -u github.com/gorilla/mux \
+    && go get gopkg.in/mgo.v2 \
+    && mkdir -p /workspace/data && mongod --dbpath /workspace/data --fork --logpath /workspace/log \
+    && git clone https://github.com/jjpera/estudo-spring-historico.git /workspace/dependence \
+    && mvn clean install -f /workspace/dependence/spring-server-generated/pom.xml \
+    && java -jar /workspace/dependence/spring-server-generated/target/swagger-spring-1.0.0.jar &
