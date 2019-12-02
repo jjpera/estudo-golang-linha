@@ -1,7 +1,8 @@
 # estudo-golang-linha
 
 informações
-????
+docker build -t golang-estudo .
+docker run -it -p 8082:8082 golang-estudo
 
 dependencias 
 -- rodando mongoDB
