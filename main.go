@@ -13,19 +13,23 @@ import (
 	//
 	sw "./go"
 	rp "./go/repository"
+	sv "./go/service"
 )
 
-var dao = rp.LinhaRepository{}
+var repository = rp.LinhaRepository{}
 var config = sw.Config{}
+var service = sv.HistoricoService{}
 
 func init() {
 	config.Read()
 
 	log.Printf("Conectando no banco %s, %s", config.Server, config.Database)
 
-	dao.Server = config.Server
-	dao.Database = config.Database
-	dao.Connect()
+	repository.Server = config.Server
+	repository.Database = config.Database
+	repository.Connect()
+
+	service.SetHistoricourl(config.Historicourl)
 }
 
 func main() {

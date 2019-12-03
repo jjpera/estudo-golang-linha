@@ -1,0 +1,3 @@
+server="localhost:27017"
+database="db-linha"
+historicourl="http://localhost:8081/historico/historico"

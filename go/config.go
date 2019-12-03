@@ -10,6 +10,7 @@ import (
 type Config struct {
 	Server   string
 	Database string
+	Historicourl string
 }
 
 func (c *Config) Read() {
