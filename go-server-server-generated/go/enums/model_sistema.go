@@ -1,4 +1,4 @@
-package swagger
+package enums
 
 // Sistema enum
 type Sistema string

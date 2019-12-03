@@ -1,4 +1,4 @@
-package swagger
+package models
 
 // RetornoHistorico retorno do serviço
 type RetornoHistorico struct {

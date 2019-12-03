@@ -1,4 +1,4 @@
-package swagger
+package enums
 
 // TipoHistorico enum
 type TipoHistorico string

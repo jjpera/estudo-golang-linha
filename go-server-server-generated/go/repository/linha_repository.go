@@ -1,6 +1,7 @@
-package swagger
+package repository
 
 import (
+	"../models"
 	"log"
 
 	mgo "gopkg.in/mgo.v2"
@@ -31,13 +32,13 @@ func (m *LinhaRepository) Connect() {
 }
 
 // Insert Adiciona linha telefonica
-func (m *LinhaRepository) Insert(linha Linha) error {
+func (m *LinhaRepository) Insert(linha models.Linha) error {
 	err := db.C(COLLECTION).Insert(&linha)
 	return err
 }
 
 // Find Busca Linha Telefonica
-func (m *LinhaRepository) Find(Ddd string, Numero string, Pagina int, QtdePagina int) ([]Linha, error) {
+func (m *LinhaRepository) Find(Ddd string, Numero string, Pagina int, QtdePagina int) ([]models.Linha, error) {
 	filter := bson.M{}
 	if Ddd != "" {
 		filter["ddd"] = Ddd
@@ -47,7 +48,7 @@ func (m *LinhaRepository) Find(Ddd string, Numero string, Pagina int, QtdePagina
 		filter["numero"] = Numero
 	}
 
-	var linhas []Linha
+	var linhas []models.Linha
 	err := db.C(COLLECTION).Find(filter).Sort("ddd", "numero").Skip(Pagina * QtdePagina).Limit(QtdePagina).All(&linhas)
 	return linhas, err
 }
@@ -67,20 +68,20 @@ func (m *LinhaRepository) Count(Ddd string, Numero string) (int, error) {
 }
 
 // FindByID busca pelo Id 
-func (m *LinhaRepository) FindByID(id string) (Linha, error) {
-	var linha Linha
+func (m *LinhaRepository) FindByID(id string) (models.Linha, error) {
+	var linha models.Linha
 	err := db.C(COLLECTION).FindId(bson.ObjectIdHex(id)).One(&linha)
 	return linha, err
 }
 
 // Delete Remove atualiza linha telefonica
-func (m *LinhaRepository) Delete(linha Linha) error {
+func (m *LinhaRepository) Delete(linha models.Linha) error {
 	err := db.C(COLLECTION).Remove(&linha)
 	return err
 }
 
 // Update atualiza linha telefonica
-func (m *LinhaRepository) Update(linha Linha) error {
+func (m *LinhaRepository) Update(linha models.Linha) error {
 	err := db.C(COLLECTION).UpdateId(linha.ID, &linha)
 	return err
 }

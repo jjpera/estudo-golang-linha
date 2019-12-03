@@ -1,4 +1,4 @@
-package swagger
+package models
 
 import (
 	"gopkg.in/mgo.v2/bson"

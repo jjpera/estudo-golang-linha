@@ -1,4 +1,4 @@
-package swagger
+package models
 
 // Retorno gerar
 type Retorno struct {

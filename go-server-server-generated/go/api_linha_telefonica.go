@@ -1,6 +1,8 @@
 package swagger
 
 import (
+	"./service"
+	"./models"
 	"log"
 	"net/http"
 	"strconv"
@@ -10,18 +12,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var linhaService LinhaService
+var linhaService service.LinhaService
 
 // CadastrarLinha inserir linha
 func CadastrarLinha(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
-	var linha Linha
+	var linha models.Linha
 	_ = json.NewDecoder(r.Body).Decode(&linha)
 
 	log.Printf("Insert Linha %s %s.", linha.Ddd, linha.Numero)
 
-	var retornoLinha RetornoLinha
+	var retornoLinha models.RetornoLinha
 	retornoLinha = linhaService.Insert(linha)
 
 	w.WriteHeader(http.StatusOK)
@@ -38,7 +40,7 @@ func BuscarLinha(w http.ResponseWriter, r *http.Request) {
 	var pagina = stringToInt(r.FormValue("pagina"))
 	var qtdePagina = stringToInt(r.FormValue("qtdePagina"))
 
-	var retornoLinha RetornoLinha
+	var retornoLinha models.RetornoLinha
 	retornoLinha = linhaService.Get(ddd, numero, pagina, qtdePagina)
 
 	w.WriteHeader(http.StatusOK)
@@ -50,10 +52,10 @@ func AlterarLinha(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	
 	var codigo = mux.Vars(r)["codigo"]
-	var linha Linha
+	var linha models.Linha
 	_ = json.NewDecoder(r.Body).Decode(&linha)
 
-	var retornoLinha RetornoLinha = linhaService.Update(codigo, linha)
+	var retornoLinha models.RetornoLinha = linhaService.Update(codigo, linha)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(retornoLinha)
 }
@@ -64,7 +66,7 @@ func ExcluirLinha(w http.ResponseWriter, r *http.Request) {
 
 	var codigo = mux.Vars(r)["codigo"]
 
-	var retornoLinha RetornoLinha = linhaService.Delete(codigo)
+	var retornoLinha models.RetornoLinha = linhaService.Delete(codigo)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(retornoLinha)
 }

@@ -1,4 +1,4 @@
-package swagger
+package models
 
 // RetornoLinha Entidade para retorno das linhas encontradas
 type RetornoLinha struct {

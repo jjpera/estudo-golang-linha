@@ -1,6 +1,7 @@
-package swagger
+package service
 
 import (
+	"../models"
 	"log"
 	"bytes"
     "net/http"
@@ -12,7 +13,7 @@ type HistoricoService struct {
 }
 
 // Insert adiciona historico
-func (m *HistoricoService) Insert(historico Historico) error {
+func (m *HistoricoService) Insert(historico models.Historico) error {
 	log.Println(historico)
 
 	jsonValue, _ := json.Marshal(historico)

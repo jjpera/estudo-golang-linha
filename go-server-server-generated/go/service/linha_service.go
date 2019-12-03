@@ -1,6 +1,9 @@
-package swagger
+package service
 
 import (
+	"../enums"
+	"../models"
+	"../repository"
 	"log"
 )
 
@@ -8,11 +11,11 @@ import (
 type LinhaService struct {
 }
 
-var linhaRepository LinhaRepository
+var linhaRepository repository.LinhaRepository
 var historicoService HistoricoService
 
 // Insert método para buscar as linhas telefonicas
-func (m *LinhaService) Insert(linha Linha) (retornoLinha RetornoLinha) {
+func (m *LinhaService) Insert(linha models.Linha) (retornoLinha models.RetornoLinha) {
 	log.Println("Insert linha")
 	err := linhaRepository.Insert(linha)
 	if err != nil {
@@ -24,12 +27,12 @@ func (m *LinhaService) Insert(linha Linha) (retornoLinha RetornoLinha) {
 		retornoLinha.Pagina = 0
 		retornoLinha.QtdePagina = 1
 		retornoLinha.Registros = 1
-		retornoLinha.ListaLinhas = []Linha{linha}
+		retornoLinha.ListaLinhas = []models.Linha{linha}
 		log.Println("Insert success: $s", linha)
 
-		historico := Historico{
-			Tipo: POST, 
-			Sistema: LINHA,
+		historico := models.Historico{
+			Tipo: enums.POST, 
+			Sistema: enums.LINHA,
 			Descricao: linha.Ddd + linha.Numero,
 		}
 
@@ -40,8 +43,8 @@ func (m *LinhaService) Insert(linha Linha) (retornoLinha RetornoLinha) {
 }
 
 // Get método para buscar as linhas telefonicas
-func (m *LinhaService) Get(ddd string, numero string, pagina int, qtdePagina int) (retornoLinha RetornoLinha) {
-	var linhas []Linha
+func (m *LinhaService) Get(ddd string, numero string, pagina int, qtdePagina int) (retornoLinha models.RetornoLinha) {
+	var linhas []models.Linha
 
 	linhas, err := linhaRepository.Find(ddd, numero, pagina, qtdePagina)
 	if err != nil {
@@ -61,9 +64,9 @@ func (m *LinhaService) Get(ddd string, numero string, pagina int, qtdePagina int
 		retornoLinha.Registros = count
 		retornoLinha.ListaLinhas = linhas
 
-		historico := Historico{
-			Tipo: GET, 
-			Sistema: LINHA,
+		historico := models.Historico{
+			Tipo: enums.GET, 
+			Sistema: enums.LINHA,
 			Descricao: "DDD: " + ddd + " Numero: " + numero,
 		}
 
@@ -74,9 +77,9 @@ func (m *LinhaService) Get(ddd string, numero string, pagina int, qtdePagina int
 }
 
 // Update atualiza linha
-func (m *LinhaService) Update(Codigo string, linha Linha) (retornoLinha RetornoLinha) {
+func (m *LinhaService) Update(Codigo string, linha models.Linha) (retornoLinha models.RetornoLinha) {
 	linhaExists, err := linhaRepository.FindByID(Codigo)
-	if linhaExists == (Linha{}) {
+	if linhaExists == (models.Linha{}) {
 		retornoLinha.Codigo = 500
 		retornoLinha.Descricao = "Error: linha não encontrada"
 	} else if err != nil {
@@ -93,12 +96,12 @@ func (m *LinhaService) Update(Codigo string, linha Linha) (retornoLinha RetornoL
 			retornoLinha.Pagina = 0
 			retornoLinha.QtdePagina = 1
 			retornoLinha.Registros = 1
-			retornoLinha.ListaLinhas = []Linha{linha}
+			retornoLinha.ListaLinhas = []models.Linha{linha}
 			log.Println("Update success: $s", linha)
 			
-			historico := Historico{
-				Tipo: PUT, 
-				Sistema: LINHA,
+			historico := models.Historico{
+				Tipo: enums.PUT, 
+				Sistema: enums.LINHA,
 				Descricao: linha.Ddd + linha.Numero,
 			}
 
@@ -110,9 +113,9 @@ func (m *LinhaService) Update(Codigo string, linha Linha) (retornoLinha RetornoL
 }
 
 // Delete remove linha
-func (m *LinhaService) Delete(Codigo string) (retornoLinha RetornoLinha) {
+func (m *LinhaService) Delete(Codigo string) (retornoLinha models.RetornoLinha) {
 	linhaExists, err := linhaRepository.FindByID(Codigo)
-	if linhaExists == (Linha{}) {
+	if linhaExists == (models.Linha{}) {
 		retornoLinha.Codigo = 500
 		retornoLinha.Descricao = "Error: linha não encontrada"
 	} else if err != nil {
@@ -128,12 +131,12 @@ func (m *LinhaService) Delete(Codigo string) (retornoLinha RetornoLinha) {
 			retornoLinha.Pagina = 0
 			retornoLinha.QtdePagina = 1
 			retornoLinha.Registros = 1
-			retornoLinha.ListaLinhas = []Linha{linhaExists}
+			retornoLinha.ListaLinhas = []models.Linha{linhaExists}
 			log.Println("Delete success: $s", linhaExists)
 			
-			historico := Historico{
-				Tipo: DELETE, 
-				Sistema: LINHA,
+			historico := models.Historico{
+				Tipo: enums.DELETE, 
+				Sistema: enums.LINHA,
 				Descricao: linhaExists.Ddd + linhaExists.Numero,
 			}
 

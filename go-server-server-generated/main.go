@@ -12,9 +12,10 @@ import (
 	//    sw "github.com/myname/myrepo/go"
 	//
 	sw "./go"
+	rp "./go/repository"
 )
 
-var dao = sw.LinhaRepository{}
+var dao = rp.LinhaRepository{}
 var config = sw.Config{}
 
 func init() {
